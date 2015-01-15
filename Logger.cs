@@ -2,25 +2,20 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Text;
+using log4net;
+using log4net.Config;
+
+[assembly: XmlConfigurator(Watch = true)]
 
 namespace Logger
 {
     /// <summary>
     /// Logger - A simple, extend-able, adjustable abstraction of log4net
-    ///
     /// All configuration is handled in log4net, this class simply makes it easier to call, allows for customizing behavior, and loosens the coupling a bit.
     /// </summary>
     public static class Logger
     {
-        // Private logger, not used at the moment
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        static Logger()
-        {
-        }
-
         #region Public Actions (overload-apalooza)
 
         /// <summary>
@@ -35,12 +30,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -60,12 +58,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -86,12 +87,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -111,12 +115,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -136,12 +143,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -162,12 +172,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -187,12 +200,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -212,12 +228,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -238,12 +257,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -263,12 +285,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -288,12 +313,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -314,12 +342,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -339,12 +370,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -364,12 +398,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -390,12 +427,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -415,12 +455,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -440,12 +483,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -466,12 +512,15 @@ namespace Logger
             if (string.IsNullOrWhiteSpace(caller))
             {
                 // Required for .NET 4.0 support, CallerMemberNameAttribute is available in .NET 4.5
-                StackFrame frame = new StackFrame(1);
+                var frame = new StackFrame(1);
                 var method = frame.GetMethod();
-                var type = method.DeclaringType.FullName;
-                var name = method.Name;
+                if (method.DeclaringType != null)
+                {
+                    var type = method.DeclaringType.FullName;
+                    var name = method.Name;
 
-                caller = string.Format("{0}.{1}", type, name);
+                    caller = string.Format("{0}.{1}", type, name);
+                }
             }
 
             if (referenceId == null) referenceId = Guid.NewGuid();
@@ -486,7 +535,7 @@ namespace Logger
         private static Guid? DebugImpl(string message, Exception exception, Guid referenceId, string caller)
         {
             // Grab log4net
-            var logger = log4net.LogManager.GetLogger(caller);
+            var logger = LogManager.GetLogger(caller);
 
             // Skip if level isn't enabled in configuration
             if (!logger.IsDebugEnabled) return null;
@@ -518,10 +567,6 @@ namespace Logger
                 logger.Debug(logMessage, exception);
             }
 
-            // Native diagnostics
-            var diagMessage = BuildDebugMessage(message, referenceId, caller);
-            System.Diagnostics.Debug.WriteLine(diagMessage);
-
             // Return the ReferenceId
             return referenceId;
         }
@@ -529,7 +574,7 @@ namespace Logger
         private static Guid? ErrorImpl(string message, Exception exception, Guid referenceId, string caller)
         {
             // Grab log4net
-            var logger = log4net.LogManager.GetLogger(caller);
+            var logger = LogManager.GetLogger(caller);
 
             // Skip if level isn't enabled in configuration
             if (!logger.IsErrorEnabled) return null;
@@ -561,10 +606,6 @@ namespace Logger
                 logger.Error(logMessage, exception);
             }
 
-            // Native diagnostics
-            var diagMessage = BuildDebugMessage(message, referenceId, caller);
-            System.Diagnostics.Debug.WriteLine(diagMessage);
-
             // Return the ReferenceId
             return referenceId;
         }
@@ -572,7 +613,7 @@ namespace Logger
         private static Guid? FatalImpl(string message, Exception exception, Guid referenceId, string caller)
         {
             // Grab log4net
-            var logger = log4net.LogManager.GetLogger(caller);
+            var logger = LogManager.GetLogger(caller);
 
             // Skip if level isn't enabled in configuration
             if (!logger.IsFatalEnabled) return null;
@@ -604,10 +645,6 @@ namespace Logger
                 logger.Fatal(logMessage, exception);
             }
 
-            // Native diagnostics
-            var diagMessage = BuildDebugMessage(message, referenceId, caller);
-            System.Diagnostics.Debug.WriteLine(diagMessage);
-
             // Return the ReferenceId
             return referenceId;
         }
@@ -615,7 +652,7 @@ namespace Logger
         private static Guid? InfoImpl(string message, Exception exception, Guid referenceId, string caller)
         {
             // Grab log4net
-            var logger = log4net.LogManager.GetLogger(caller);
+            var logger = LogManager.GetLogger(caller);
 
             // Skip if level isn't enabled in configuration
             if (!logger.IsInfoEnabled) return null;
@@ -647,19 +684,12 @@ namespace Logger
                 logger.Info(logMessage, exception);
             }
 
-            // Native diagnostics
-            var diagMessage = BuildDebugMessage(message, referenceId, caller);
-            System.Diagnostics.Debug.WriteLine(diagMessage);
-
             // Return the ReferenceId
             return referenceId;
         }
 
         private static Guid? TraceImpl(string message, Exception exception, Guid referenceId, string caller)
         {
-            // Grab log4net
-            var logger = log4net.LogManager.GetLogger(caller);
-
             // Make sure message is populated, use exception if needed, fall-back on hard-coded generic error
             if (string.IsNullOrWhiteSpace(message))
             {
@@ -685,7 +715,7 @@ namespace Logger
         private static Guid? WarnImpl(string message, Exception exception, Guid referenceId, string caller)
         {
             // Grab log4net
-            var logger = log4net.LogManager.GetLogger(caller);
+            var logger = LogManager.GetLogger(caller);
 
             // Skip if level isn't enabled in configuration
             if (!logger.IsWarnEnabled) return null;
@@ -717,10 +747,6 @@ namespace Logger
                 logger.Warn(logMessage, exception);
             }
 
-            // Native diagnostics
-            var diagMessage = BuildDebugMessage(message, referenceId, caller);
-            System.Diagnostics.Debug.WriteLine(diagMessage);
-
             // Return the ReferenceId
             return referenceId;
         }
@@ -729,19 +755,19 @@ namespace Logger
 
         #region Private Helpers
 
+        private static string BuildDebugMessage(string message, Guid referenceId, string caller)
+        {
+            return string.Format("[Logger-DEBUG] {0} --- {1} --- {2} -- {3}", DateTime.Now, referenceId, caller, message);
+        }
+
         private static string BuildLogMessage(string message, Guid referenceId, string caller)
         {
             return string.Format("{0} --- {1} --- {2}", referenceId, caller, message);
         }
 
-        private static string BuildDebugMessage(string message, Guid referenceId, string caller)
-        {
-            return string.Format("Logger: (DEBUG) {0} --- {1} --- {2} -- {3}", DateTime.Now, referenceId, caller, message);
-        }
-
         private static string BuildTraceMessage(string message, Guid referenceId, string caller)
         {
-            return string.Format("Logger: (TRACE) {0} --- {1} --- {2} -- {3}", DateTime.Now, referenceId, caller, message);
+            return string.Format("[Logger-TRACE] {0} --- {1} --- {2} -- {3}", DateTime.Now, referenceId, caller, message);
         }
 
         private static string GetMessageFromException(Exception exception)
@@ -757,9 +783,9 @@ namespace Logger
             }
 
             // Remove newline, return, and tab control characters
-            if (r.Contains('\r')) r.Replace('\r'.ToString(), string.Empty);
-            if (r.Contains('\n')) r.Replace('\n'.ToString(), string.Empty);
-            if (r.Contains('\t')) r.Replace('\t'.ToString(), string.Empty);
+            if (r.Contains('\r')) r = r.Replace('\r'.ToString(), string.Empty);
+            if (r.Contains('\n')) r = r.Replace('\n'.ToString(), string.Empty);
+            if (r.Contains('\t')) r = r.Replace('\t'.ToString(), string.Empty);
 
             return r;
         }
