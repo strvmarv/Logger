@@ -543,22 +543,8 @@ public static class Logger
         // Skip if level isn't enabled
         if (!logger.IsDebugEnabled) return LoggerResult.CreateNotLogged(LoggerResultType.NotLogged_Threshold);
 
-        // Make sure message is populated, use exception if needed, fall-back on hard-coded generic error
-        if (string.IsNullOrWhiteSpace(message))
-        {
-            if (exception != null)
-            {
-                message = Logger.GetMessageFromException(exception);
-            }
-
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                message = "Unknown Error Occurred - no message or exception was passed to Logger";
-            }
-        }
-
-        // Combine message with caller and reference id
-        var logMessage = Logger.BuildLogMessage(message, referenceId, caller);
+        // Build log message
+        var logMessage = Logger.BuildLogMessage(message, referenceId, caller, exception);
 
         // Call appropriate log4net method
         if (exception == null)
@@ -585,22 +571,8 @@ public static class Logger
         // Skip if level isn't enabled
         if (!logger.IsErrorEnabled) return LoggerResult.CreateNotLogged(LoggerResultType.NotLogged_Threshold);
 
-        // Make sure message is populated, use exception if needed, fall-back on hard-coded generic error
-        if (string.IsNullOrWhiteSpace(message))
-        {
-            if (exception != null)
-            {
-                message = Logger.GetMessageFromException(exception);
-            }
-
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                message = "Unknown Error Occurred - no message or exception was passed to Logger";
-            }
-        }
-
-        // Combine message with caller and reference id
-        var logMessage = Logger.BuildLogMessage(message, referenceId, caller);
+        // Build log message
+        var logMessage = Logger.BuildLogMessage(message, referenceId, caller, exception);
 
         // Call appropriate log4net method
         if (exception == null)
@@ -627,22 +599,8 @@ public static class Logger
         // Skip if level isn't enabled
         if (!logger.IsFatalEnabled) return LoggerResult.CreateNotLogged(LoggerResultType.NotLogged_Threshold);
 
-        // Make sure message is populated, use exception if needed, fall-back on hard-coded generic error
-        if (string.IsNullOrWhiteSpace(message))
-        {
-            if (exception != null)
-            {
-                message = Logger.GetMessageFromException(exception);
-            }
-
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                message = "Unknown Error Occurred - no message or exception was passed to Logger";
-            }
-        }
-
-        // Combine message with caller and reference id
-        var logMessage = Logger.BuildLogMessage(message, referenceId, caller);
+        // Build log message
+        var logMessage = Logger.BuildLogMessage(message, referenceId, caller, exception);
 
         // Call appropriate log4net method
         if (exception == null)
@@ -669,22 +627,8 @@ public static class Logger
         // Skip if level isn't enabled
         if (!logger.IsInfoEnabled) return LoggerResult.CreateNotLogged(LoggerResultType.NotLogged_Threshold);
 
-        // Make sure message is populated, use exception if needed, fall-back on hard-coded generic error
-        if (string.IsNullOrWhiteSpace(message))
-        {
-            if (exception != null)
-            {
-                message = Logger.GetMessageFromException(exception);
-            }
-
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                message = "Unknown Error Occurred - no message or exception was passed to Logger";
-            }
-        }
-
-        // Combine message with caller and reference id
-        var logMessage = Logger.BuildLogMessage(message, referenceId, caller);
+        // Build log message
+        var logMessage = Logger.BuildLogMessage(message, referenceId, caller, exception);
 
         // Call appropriate log4net method
         if (exception == null)
@@ -702,22 +646,8 @@ public static class Logger
 
     private static LoggerResult TraceImpl(string message, Exception exception, Guid referenceId, string caller)
     {
-        // Make sure message is populated, use exception if needed, fall-back on hard-coded generic error
-        if (string.IsNullOrWhiteSpace(message))
-        {
-            if (exception != null)
-            {
-                message = Logger.GetMessageFromException(exception);
-            }
-
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                message = "Unknown Error Occurred - no message or exception was passed to Logger";
-            }
-        }
-
         // Native diagnostics
-        var diagMessage = Logger.BuildTraceMessage(message, referenceId, caller);
+        var diagMessage = Logger.BuildTraceMessage(message, referenceId, caller, exception);
         System.Diagnostics.Trace.WriteLine(diagMessage);
 
         // Return the ReferenceId
@@ -735,22 +665,8 @@ public static class Logger
         // Skip if level isn't enabled
         if (!logger.IsWarnEnabled) return LoggerResult.CreateNotLogged(LoggerResultType.NotLogged_Threshold);
 
-        // Make sure message is populated, use exception if needed, fall-back on hard-coded generic error
-        if (string.IsNullOrWhiteSpace(message))
-        {
-            if (exception != null)
-            {
-                message = Logger.GetMessageFromException(exception);
-            }
-
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                message = "Unknown Error Occurred - no message or exception was passed to Logger";
-            }
-        }
-
-        // Combine message with caller and reference id
-        var logMessage = Logger.BuildLogMessage(message, referenceId, caller);
+        // Build log message
+        var logMessage = Logger.BuildLogMessage(message, referenceId, caller, exception);
 
         // Call appropriate log4net method
         if (exception == null)
@@ -770,14 +686,26 @@ public static class Logger
 
     #region Private Helpers
 
-    private static string BuildLogMessage(string message, Guid referenceId, string caller)
+    private static string BuildLogMessage(string message, Guid referenceId, string caller, Exception exception = null)
     {
-        return string.Format("{0} --- {1} --- {2}", referenceId, caller, message);
+        var msg = message;
+
+        if (string.IsNullOrWhiteSpace(message) && exception == null) msg = "No message was passed to Logger";
+        if (string.IsNullOrWhiteSpace(message) && exception != null) msg = GetMessageFromException(exception);
+        if (!string.IsNullOrWhiteSpace(message) && exception != null) msg = string.Format("{0} | {1}", msg, GetMessageFromException(exception));
+
+        return string.Format("[{0}] [{1}] [{2}]", referenceId, caller, msg);
     }
 
-    private static string BuildTraceMessage(string message, Guid referenceId, string caller)
+    private static string BuildTraceMessage(string message, Guid referenceId, string caller, Exception exception = null)
     {
-        return string.Format("[Logger-TRACE] {0} --- {1} --- {2} -- {3}", DateTime.Now, referenceId, caller, message);
+        var msg = message;
+
+        if (string.IsNullOrWhiteSpace(message) && exception == null) msg = "No message was passed to Logger";
+        if (string.IsNullOrWhiteSpace(message) && exception != null) msg = GetMessageFromException(exception);
+        if (!string.IsNullOrWhiteSpace(message) && exception != null) msg = string.Format("{0} | {1}", msg, GetMessageFromException(exception));
+
+        return string.Format("[LOGGER-TRACE] {0} --- {1} --- {2} --- {3}", DateTime.Now, referenceId, caller, msg);
     }
 
     private static string GetMessageFromException(Exception exception)
@@ -785,17 +713,14 @@ public static class Logger
         // Get exception message
         var r = exception.Message;
 
-        // Inner Exception, only one level deep
-        var innerException = exception.InnerException;
-        if (innerException != null)
-        {
-            r = r + " --- " + innerException.Message;
-        }
-
         // Remove newline, return, and tab control characters
-        if (r.Contains('\r')) r = r.Replace('\r'.ToString(), string.Empty);
-        if (r.Contains('\n')) r = r.Replace('\n'.ToString(), string.Empty);
-        if (r.Contains('\t')) r = r.Replace('\t'.ToString(), string.Empty);
+        if (r.Contains("\r")) r = r.Replace("\r", string.Empty);
+        if (r.Contains("\n")) r = r.Replace("\n", string.Empty);
+        if (r.Contains("\r\n")) r = r.Replace("\r\n", string.Empty);
+        if (r.Contains("\t")) r = r.Replace("\t", string.Empty);
+
+        // Trim to 500 chars
+        if (r.Length > 500) r = r.Substring(0, 500);
 
         return r;
     }
